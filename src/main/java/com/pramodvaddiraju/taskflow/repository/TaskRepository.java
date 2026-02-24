@@ -1,6 +1,6 @@
 package com.pramodvaddiraju.taskflow.repository;
 
-import com.pramodvaddiraju.taskflow.service.Task;
+import com.pramodvaddiraju.taskflow.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {

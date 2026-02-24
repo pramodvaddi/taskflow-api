@@ -1,22 +1,14 @@
-package com.pramodvaddiraju.taskflow.service;
+package com.pramodvaddiraju.taskflow.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "taskflow_table")
-public class Task {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TaskResponse {
     private Long id;
     private String title;
     private String description;
     private String priority;
     private boolean completed;
-    public Task(){
+    public TaskResponse(){
 
     }
-
     public Long getId() {
         return id;
     }
