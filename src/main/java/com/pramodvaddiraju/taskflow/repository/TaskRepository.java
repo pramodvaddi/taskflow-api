@@ -3,8 +3,10 @@ package com.pramodvaddiraju.taskflow.repository;
 import com.pramodvaddiraju.taskflow.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    void findByCompleted(boolean completed);
-    void findByPriority(String priority);
+    List<Task> findByCompleted(boolean completed);
+    List<Task> findByPriority(String priority);
 }
