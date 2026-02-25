@@ -2,6 +2,7 @@ package com.pramodvaddiraju.taskflow.service;
 
 import com.pramodvaddiraju.taskflow.dto.TaskRequest;
 import com.pramodvaddiraju.taskflow.dto.TaskResponse;
+import com.pramodvaddiraju.taskflow.email.EmailService;
 import com.pramodvaddiraju.taskflow.entity.Task;
 import com.pramodvaddiraju.taskflow.exception.ResourceNotFoundException;
 import com.pramodvaddiraju.taskflow.repository.TaskRepository;
@@ -21,10 +22,12 @@ public class TaskServiceImpl implements TaskService {
     private static final Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
     private ModelMapper modelMapper;
     private final TaskRepository taskRepository;
+    private final EmailService emailService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, ModelMapper modelMapper) {
+    public TaskServiceImpl(TaskRepository taskRepository, ModelMapper modelMapper, EmailService emailService) {
         this.taskRepository = taskRepository;
         this.modelMapper = modelMapper;
+        this.emailService = emailService;
     }
 
 
@@ -33,6 +36,10 @@ public class TaskServiceImpl implements TaskService {
         Task task = modelMapper.map(taskRequest, Task.class);
         Task created = taskRepository.save(task);
         log.info("Task created");
+        emailService.sendTaskCreatedEmail(
+                taskRequest.getEmail(),
+                taskRequest.getTitle()
+        );
         return modelMapper.map(created, TaskResponse.class);
     }
 
@@ -64,6 +71,12 @@ public class TaskServiceImpl implements TaskService {
         existingTask.setCompleted(existingTask.isCompleted());
         Task updatedTask = taskRepository.save(existingTask);
         log.info("Task updated with id: {}", updatedTask.getId());
+        if(taskRequest.isCompleted()){
+            emailService.sendTaskCompletedEmail(
+                    taskRequest.getEmail(),
+                    taskRequest.getTitle()
+            );
+        }
         return modelMapper.map(updatedTask, TaskResponse.class);
     }
 

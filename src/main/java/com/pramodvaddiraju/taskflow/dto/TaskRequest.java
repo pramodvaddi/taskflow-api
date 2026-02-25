@@ -11,6 +11,7 @@ public class TaskRequest {
     @NotBlank(message = "priority cannot be blank")
     private String priority;
     private boolean completed;
+    private String email;
 
     public TaskRequest(){
 
@@ -46,5 +47,13 @@ public class TaskRequest {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
